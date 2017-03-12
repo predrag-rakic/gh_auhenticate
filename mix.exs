@@ -21,6 +21,7 @@ defmodule GhAuhenticate.Mixfile do
       :httpoison,
       :uuid,
       :httpoison,
+      :poison,
     ],
     mod: {GhAuhenticate, []}]
   end
@@ -41,6 +42,7 @@ defmodule GhAuhenticate.Mixfile do
       {:httpoison, "~> 0.10.0"},
       {:uuid, "~> 1.1"},
       {:httpoison, "~> 0.10.0"},
+      {:poison, "~> 2.0"},
     ]
 
   end
