@@ -23,7 +23,6 @@ defmodule GhAuthenticate.Router do
     |> Plug.Conn.send_resp(200, token)
   end
 
-
   match _ do send_resp(conn, 404, "oops, no page!!!") end
 
   def login_page_content do
