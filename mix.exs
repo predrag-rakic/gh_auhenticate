@@ -19,6 +19,8 @@ defmodule GhAuhenticate.Mixfile do
       :cowboy,
       :plug,
       :httpoison,
+      :uuid,
+      :httpoison,
     ],
     mod: {GhAuhenticate, []}]
   end
@@ -36,6 +38,8 @@ defmodule GhAuhenticate.Mixfile do
     [
       {:cowboy, "~> 1.0.0"},
       {:plug, "~> 1.0"},
+      {:httpoison, "~> 0.10.0"},
+      {:uuid, "~> 1.1"},
       {:httpoison, "~> 0.10.0"},
     ]
 
