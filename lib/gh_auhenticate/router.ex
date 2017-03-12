@@ -17,10 +17,12 @@ defmodule GhAuthenticate.Router do
     IO.puts inspect conn
 
     token = access_token(conn)
+    {:ok, emails} = HTTPoison.get("https://api.github.com/user/emails", [], params: %{"access_token": token})
+    IO.puts "emails: #{inspect emails}"
 
     conn
     |> Plug.Conn.put_resp_content_type("text/html")
-    |> Plug.Conn.send_resp(200, inspect token)
+    |> Plug.Conn.send_resp(200, emails.body)
   end
 
   match _ do send_resp(conn, 404, "oops, no page!!!") end
