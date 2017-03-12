@@ -7,7 +7,6 @@ defmodule GhAuthenticate.Router do
 
   get "/login" do
     conn
-    |> Plug.Conn.fetch_query_params(conn)
     |> Plug.Conn.put_resp_content_type("text/html")
     |> Plug.Conn.send_resp(200, login_page_content)
   end
@@ -45,18 +44,14 @@ defmodule GhAuthenticate.Router do
     code = Map.get(conn.params, "code")
 
     request_path = "https://github.com/login/oauth/access_token"
-    #data = "client_id=169d6a13fb51a4b31d67&client_secret=d3db838f47e47b90f5486da615083fe8509a1e26&code=#{code}&state=unique_identifier"
     data = %{"client_id": "169d6a13fb51a4b31d67",
              "client_secret": "d3db838f47e47b90f5486da615083fe8509a1e26",
              "code": code,
              "state": "unique_identifier"}
       |> Poison.encode!
     headers = ["Content-Type": "application/json", "Accept": "application/json"]
-    IO.puts "data: #{data}"
 
     {:ok, response} = HTTPoison.post(request_path, data, headers)
-    IO.puts "response.code: #{response.status_code}"
-    IO.puts "response.body: #{response.body}"
     IO.puts "response: #{inspect response}"
     response.body |> Poison.decode! |> Map.get("access_token")
   end
