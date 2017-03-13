@@ -16,6 +16,7 @@ defmodule GhAuthenticate.Router do
     IO.puts inspect conn
 
     token = access_token(conn)
+
     {:ok, emails} = HTTPoison.get("https://api.github.com/user/emails", [], params: %{"access_token": token})
     IO.puts "emails: #{inspect emails}"
 
@@ -41,7 +42,11 @@ defmodule GhAuthenticate.Router do
   end
 
   def access_token(conn) do
-    code = Map.get(conn.params, "code")
+    code  = Map.get(conn.params, "code")
+    state = Map.get(conn.params, "state")
+
+    # In real app, we'll have to match state with value sent in login_page_content first
+    IO.puts "Received value for 'state': #{inspect state}"
 
     request_path = "https://github.com/login/oauth/access_token"
     data = %{"client_id": "169d6a13fb51a4b31d67",
@@ -55,6 +60,4 @@ defmodule GhAuthenticate.Router do
     IO.puts "response: #{inspect response}"
     response.body |> Poison.decode! |> Map.get("access_token")
   end
-
-
 end
